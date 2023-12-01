@@ -1,6 +1,7 @@
 fun main() {
     val solutions: List<Solution> = listOf(
-        day1.Part1()
+        day1.Part1(),
+        day1.Part2()
     )
 
     while (true) {

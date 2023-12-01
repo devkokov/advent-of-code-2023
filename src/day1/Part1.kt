@@ -2,7 +2,6 @@ package day1
 
 import Solution
 import java.io.File
-import kotlin.system.exitProcess
 
 class Part1: Solution {
     override fun getTitle(): String {
@@ -24,8 +23,8 @@ class Part1: Solution {
         if (result == 142) {
             println("OK")
         } else {
-            print("FAIL")
-            exitProcess(1)
+            println("FAIL")
+            return
         }
 
         println("Running against large dataset")
