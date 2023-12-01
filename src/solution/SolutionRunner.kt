@@ -46,7 +46,18 @@ class SolutionRunner(private val solutions: Set<Solution>) {
         println(title)
         println("-".repeat(title.length))
 
-        solution.run()
+        for (dataset in solution.datasets) {
+            println("Running against dataset: ${dataset.filepath}")
+
+            val result = solution.getResult(dataset)
+            print("Result $result")
+
+            if (dataset.answer == null) {
+                return
+            }
+
+            println(" - " + if (dataset.answer == result) "OK" else "FAIL")
+        }
 
         println("\nDONE. Press enter to continue")
         readlnOrNull()

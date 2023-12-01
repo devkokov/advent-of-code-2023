@@ -1,8 +1,10 @@
 package day1
 
 import solution.Dataset
+import solution.Solution
+import java.io.File
 
-class Part2: Part1() {
+class Part2: Solution {
     override val datasets = setOf(
         Dataset("src/day1/data/test_input_part2.txt", "281"),
         Dataset("src/day1/data/input.txt", "53221")
@@ -12,7 +14,7 @@ class Part2: Part1() {
         return "Day 1: Trebuchet?! - Part 2"
     }
 
-    override fun getResult(input: String): Int {
+    override fun getResult(dataset: Dataset): String {
         val digits = setOf(
             "one" to "1",
             "two" to "2",
@@ -26,7 +28,7 @@ class Part2: Part1() {
         )
 
         var sum = 0
-        for (line in input.split("\n")) {
+        for (line in File(dataset.filepath).readLines()) {
             val positions: MutableMap<Int, String> = mutableMapOf()
             for ((word, digit) in digits) {
                 positions[line.indexOf(word)] = digit
@@ -38,6 +40,6 @@ class Part2: Part1() {
             val num = sortedPositions.firstEntry().value + sortedPositions.lastEntry().value
             sum += num.toInt()
         }
-        return sum
+        return sum.toString()
     }
 }

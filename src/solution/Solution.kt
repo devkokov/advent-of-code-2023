@@ -1,6 +1,7 @@
 package solution
 
 interface Solution {
+    val datasets: Set<Dataset>
     fun getTitle(): String
-    fun run()
+    fun getResult(dataset: Dataset): String
 }
