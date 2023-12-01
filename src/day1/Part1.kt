@@ -1,39 +1,35 @@
 package day1
 
-import Solution
+import solution.Dataset
+import solution.Solution
 import java.io.File
 
-class Part1: Solution {
+open class Part1: Solution {
+    open val datasets = setOf(
+        Dataset("src/day1/data/test_input_part1.txt", "142"),
+        Dataset("src/day1/data/input.txt", "55834")
+    )
+
     override fun getTitle(): String {
         return "Day 1: Trebuchet?! - Part 1"
     }
 
     override fun run() {
-        val example = "1abc2\n" +
-                "pqr3stu8vwx\n" +
-                "a1b2c3d4e5f\n" +
-                "treb7uchet"
+        for (dataset in datasets) {
+            println("Running against dataset: ${dataset.filepath}")
 
-        println("Running against example dataset")
+            val result = getResult(File(dataset.filepath).readText())
+            print("Result $result")
 
-        var result = getResult(example)
+            if (dataset.answer == null) {
+                return
+            }
 
-        print("Result $result - ")
-
-        if (result == 142) {
-            println("OK")
-        } else {
-            println("FAIL")
-            return
+            println(" - " + if (dataset.answer == result.toString()) "OK" else "FAIL")
         }
-
-        println("Running against large dataset")
-
-        result = getResult(File("src/day1/input.txt").readText())
-        println("Result $result")
     }
 
-    private fun getResult(input: String): Int {
+    open fun getResult(input: String): Int {
         var sum = 0
         for (line in input.split("\n")) {
             val digits = line.filter { it.isDigit() }

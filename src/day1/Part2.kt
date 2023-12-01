@@ -1,54 +1,30 @@
 package day1
 
-import Solution
-import java.io.File
+import solution.Dataset
 
-class Part2: Solution {
-    private val digits = setOf(
-        "one" to "1",
-        "two" to "2",
-        "three" to "3",
-        "four" to "4",
-        "five" to "5",
-        "six" to "6",
-        "seven" to "7",
-        "eight" to "8",
-        "nine" to "9",
+class Part2: Part1() {
+    override val datasets = setOf(
+        Dataset("src/day1/data/test_input_part2.txt", "281"),
+        Dataset("src/day1/data/input.txt", "53221")
     )
 
     override fun getTitle(): String {
         return "Day 1: Trebuchet?! - Part 2"
     }
 
-    override fun run() {
-        val example = "two1nine\n" +
-                "eightwothree\n" +
-                "abcone2threexyz\n" +
-                "xtwone3four\n" +
-                "4nineeightseven2\n" +
-                "zoneight234\n" +
-                "7pqrstsixteen"
+    override fun getResult(input: String): Int {
+        val digits = setOf(
+            "one" to "1",
+            "two" to "2",
+            "three" to "3",
+            "four" to "4",
+            "five" to "5",
+            "six" to "6",
+            "seven" to "7",
+            "eight" to "8",
+            "nine" to "9",
+        )
 
-        println("Running against example dataset")
-
-        var result = getResult(example)
-
-        print("Result $result - ")
-
-        if (result == 281) {
-            println("OK")
-        } else {
-            println("FAIL")
-            return
-        }
-
-        println("Running against large dataset")
-
-        result = getResult(File("src/day1/input.txt").readText())
-        println("Result $result")
-    }
-
-    private fun getResult(input: String): Int {
         var sum = 0
         for (line in input.split("\n")) {
             val positions: MutableMap<Int, String> = mutableMapOf()
@@ -61,7 +37,6 @@ class Part2: Solution {
             val sortedPositions = positions.filterKeys { it > -1 }.toSortedMap { a, b -> a.compareTo(b) }
             val num = sortedPositions.firstEntry().value + sortedPositions.lastEntry().value
             sum += num.toInt()
-            println("${line.padEnd(60, " ".first())} -> $num")
         }
         return sum
     }
