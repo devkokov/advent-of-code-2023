@@ -1,5 +1,7 @@
 package solution
 
+import kotlin.system.measureTimeMillis
+
 class SolutionRunner(private val solutions: Set<Solution>) {
     fun letsGo() {
         while (true) {
@@ -49,14 +51,17 @@ class SolutionRunner(private val solutions: Set<Solution>) {
         for (dataset in solution.datasets) {
             println("Running against dataset: ${dataset.filepath}")
 
-            val result = solution.getResult(dataset)
+            val result: String
+            val elapsed = measureTimeMillis {
+                result = solution.getResult(dataset)
+            }
             print("Result $result")
 
-            if (dataset.answer == null) {
-                return
+            if (dataset.answer != null) {
+                print(" - " + if (dataset.answer == result) "OK" else "FAIL")
             }
 
-            println(" - " + if (dataset.answer == result) "OK" else "FAIL")
+            println(". Execution time $elapsed ms")
         }
 
         println("\nDONE. Press enter to continue")
