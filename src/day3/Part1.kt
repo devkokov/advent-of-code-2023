@@ -7,8 +7,9 @@ import java.io.File
 class Part1: Solution {
     override val datasets = setOf(
         Dataset("src/day3/data/test_input_part1.txt", "4361"),
-        Dataset("src/day3/data/input.txt")
+        Dataset("src/day3/data/input.txt", "507214")
     )
+
     override fun getTitle(): String {
         return "Day 3: Gear Ratios - Part 1"
     }
