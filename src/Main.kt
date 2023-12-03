@@ -6,7 +6,8 @@ fun main() {
         day1.Part2(),
         day1.Part2Optimised(),
         day2.Part1(),
-        day2.Part2()
+        day2.Part2(),
+        day3.Part1()
     )
     SolutionRunner(solutions).letsGo()
 }

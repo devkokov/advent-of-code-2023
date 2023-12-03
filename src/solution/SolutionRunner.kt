@@ -58,7 +58,7 @@ class SolutionRunner(private val solutions: Set<Solution>) {
             print("Result $result")
 
             if (dataset.answer != null) {
-                print(" - " + if (dataset.answer == result) "OK" else "FAIL")
+                print(" - " + if (dataset.answer == result) "OK" else "FAIL. Expected ${dataset.answer}")
             }
 
             println(". Execution time $elapsed ms")

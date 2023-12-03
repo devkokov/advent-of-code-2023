@@ -4,7 +4,7 @@ import solution.Dataset
 import solution.Solution
 import java.io.File
 
-open class Part1: Solution {
+class Part1: Solution {
     override val datasets = setOf(
         Dataset("src/day1/data/test_input_part1.txt", "142"),
         Dataset("src/day1/data/input.txt", "55834")
