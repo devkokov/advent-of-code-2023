@@ -8,7 +8,8 @@ fun main() {
         day2.Part1(),
         day2.Part2(),
         day3.Part1(),
-        day3.Part2()
+        day3.Part2(),
+        day4.Part1()
     )
     SolutionRunner(solutions).letsGo()
 }
