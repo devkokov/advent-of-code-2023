@@ -5,7 +5,7 @@ import solution.Solution
 import java.io.File
 import kotlin.math.*
 
-class Part1: Solution {
+open class Part1: Solution {
     override val datasets = setOf(
         Dataset("src/day6/data/test_input_part1.txt", "288"),
         Dataset("src/day6/data/input.txt", "800280")
@@ -17,13 +17,13 @@ class Part1: Solution {
 
     override fun getResult(dataset: Dataset): String {
         val file = File(dataset.filepath).readLines()
-        val extract = { line: String -> line.substringAfter(":").split(" ").mapNotNull { if (it.trim() == "") null else it.trim().toInt() } }
+        val extract = { line: String -> line.substringAfter(":").split(" ").mapNotNull { if (it.trim() == "") null else it.trim().toLong() } }
         val races = extract(file[0]).zip(extract(file[1]))
-        return races.fold(1) { acc, race -> acc * this.getWinCount(race.first, race.second + 1) }.toString()
+        return races.fold(1.toLong()) { acc, race -> acc * this.getWinCount(race.first, race.second + 1) }.toString()
     }
 
-    private fun getWinCount(time: Int, dist: Int): Int {
+    protected fun getWinCount(time: Long, dist: Long): Long {
         val calc = { factor: Int -> (time + factor*sqrt(time.toDouble().pow(2) - 4*dist) )/2 }
-        return (floor(calc(1)) - ceil(calc(-1)) + 1).toInt()
+        return (floor(calc(1)) - ceil(calc(-1)) + 1).toLong()
     }
 }
