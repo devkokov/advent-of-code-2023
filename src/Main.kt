@@ -16,6 +16,7 @@ fun main() {
         day6.Part1(),
         day6.Part2(),
         day7.Part1(),
+        day7.Part2(),
     )
     SolutionRunner(solutions).letsGo()
 }

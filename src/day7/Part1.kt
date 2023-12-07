@@ -5,11 +5,13 @@ import solution.Solution
 import java.io.File
 import kotlin.math.abs
 
-class Part1: Solution {
+open class Part1: Solution {
     override val datasets = setOf(
         Dataset("src/day7/data/test_input_part1.txt", "6440"),
         Dataset("src/day7/data/input.txt", "248105065")
     )
+
+    open val cards = setOf("A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2").map { it.toCharArray().first() }
 
     override fun getTitle(): String {
         return "Day 7: Camel Cards - Part 1"
@@ -21,27 +23,25 @@ class Part1: Solution {
             .foldIndexed(0) { i, acc, v -> acc + (i + 1) * v.last.toInt() }.toString()
     }
 
-    private fun getHandScore(hand: String): Int {
+    protected open fun getHandScore(hand: String): Int {
         val groups = mutableMapOf<Char, Int>()
         hand.forEach { groups[it] = (groups[it] ?: 0) + 1 }
-        val score = when (groups.maxOf { it.value }) {
+        return when (groups.maxOf { it.value }) {
             5 -> 7
             4 -> 6
             3 -> if (groups.count() == 2) 5 else 4
             2 -> if (groups.count() == 3) 3 else 2
             else -> 1
         }
-        return score
     }
 
-    private fun compare(a: String, b: String): Int {
+    protected open fun compare(a: String, b: String): Int {
         val diff = getHandScore(a) - getHandScore(b)
         if (diff != 0) {
             return diff/abs(diff)
         }
-        val cards = setOf("A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2").map { it.toCharArray().first() }
         for (i in 0..4) {
-            val cardDiff = cards.indexOf(b[i]) - cards.indexOf(a[i])
+            val cardDiff = this.cards.indexOf(b[i]) - this.cards.indexOf(a[i])
             if (cardDiff != 0) {
                 return cardDiff/abs(cardDiff)
             }
