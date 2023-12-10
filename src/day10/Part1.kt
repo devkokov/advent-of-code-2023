@@ -4,7 +4,7 @@ import solution.Dataset
 import solution.Solution
 import java.io.File
 
-class Part1 : Solution {
+open class Part1 : Solution {
     override val datasets = setOf(
         Dataset("src/day10/data/test_input_part1.txt", "8"),
         Dataset("src/day10/data/input.txt", "6927")
@@ -33,13 +33,24 @@ class Part1 : Solution {
         "F" to setOf("down", "right"),
     )
 
-    private val grid = mutableListOf<MutableList<String>>()
+    protected val grid = mutableListOf<MutableList<String>>()
+
+    protected val pipeCoords = mutableMapOf<String, Pair<Pair<Int, Int>, String>>()
+
+    private var stepCount = 0
+
+    protected var loopDirection = 0
 
     override fun getTitle(): String {
         return "Day 10: Pipe Maze - Part 1"
     }
 
     override fun getResult(dataset: Dataset): String {
+        this.processGrid(dataset)
+        return (this.stepCount / 2).toString()
+    }
+
+    protected fun processGrid(dataset: Dataset) {
         this.grid.clear()
         var sCoords = Pair(-1, -1)
 
@@ -59,21 +70,31 @@ class Part1 : Solution {
                 continue
             }
             this.grid[sCoords.first][sCoords.second] = pipe
+            this.pipeCoords.clear()
+            this.stepCount = 0
+            this.loopDirection = 0
 
             var current = sCoords
             var direction = dirs.first()
-            var stepCount = 0
 
             do {
                 if (!canTravel(current, direction)) {
                     continue@possibleStart
                 }
                 current = getNext(current, direction)
-                stepCount++
+                this.pipeCoords["${current.first}:${current.second}"] = Pair(current, direction)
+                this.stepCount++
+                this.loopDirection += when(char(current)) {
+                    "L" -> if (direction == "down") -1 else 1
+                    "J" -> if (direction == "down") 1 else -1
+                    "F" -> if (direction == "up") 1 else -1
+                    "7" -> if (direction == "up") -1 else 1
+                    else -> 0
+                }
                 direction = this.pipeToDir[char(current)]!!.filter { it != this.opposites[direction] }.first
             } while (current != sCoords)
 
-            return (stepCount / 2).toString()
+            return
         }
 
         throw PipeException("No loop found")
@@ -87,7 +108,7 @@ class Part1 : Solution {
         }
     }
 
-    private fun char(coords: Pair<Int, Int>): String {
+    protected fun char(coords: Pair<Int, Int>): String {
         return this.grid[coords.first][coords.second]
     }
 
@@ -107,5 +128,3 @@ class Part1 : Solution {
         return next
     }
 }
-
-class PipeException(s: String) : Exception(s)
