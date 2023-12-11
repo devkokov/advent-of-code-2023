@@ -5,7 +5,7 @@ import solution.Solution
 import java.io.File
 import kotlin.math.absoluteValue
 
-class Part1 : Solution {
+open class Part1 : Solution {
     override val datasets = setOf(
         Dataset("src/day11/data/test_input_part1.txt", "374"),
         Dataset("src/day11/data/input.txt", "9274989")
@@ -14,6 +14,8 @@ class Part1 : Solution {
     override fun getTitle(): String {
         return "Day 11: Cosmic Expansion - Part 1"
     }
+
+    protected open val expansionFactor = 2.toLong()
 
     override fun getResult(dataset: Dataset): String {
         var rows = 0
@@ -37,28 +39,28 @@ class Part1 : Solution {
             }
         }
 
-        val incrementRowsBy = mutableMapOf<Int, Int>()
-        val incrementColsBy = mutableMapOf<Int, Int>()
+        val incrementRowsBy = mutableMapOf<Int, Long>()
+        val incrementColsBy = mutableMapOf<Int, Long>()
 
-        var incrementRowBy = 0
+        var incrementRowBy = 0.toLong()
         for (row in 0 until rows) {
             if (!galaxyRows.contains(row)) {
-                incrementRowBy++
+                incrementRowBy += this.expansionFactor - 1
             }
             incrementRowsBy[row] = incrementRowBy
         }
 
-        var incrementColBy = 0
+        var incrementColBy = 0.toLong()
         for (col in 0 until cols) {
             if (!galaxyCols.contains(col)) {
-                incrementColBy++
+                incrementColBy += this.expansionFactor - 1
             }
             incrementColsBy[col] = incrementColBy
         }
 
         val expandedGalaxies = galaxies.map { Pair(it.first + incrementRowsBy[it.first]!!, it.second + incrementColsBy[it.second]!!) }
 
-        var sum = 0
+        var sum = 0.toLong()
         for ((i, galaxyA) in expandedGalaxies.withIndex()) {
             for (j in i+1 until expandedGalaxies.count()) {
                 val galaxyB = expandedGalaxies[j]
