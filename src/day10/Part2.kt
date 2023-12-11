@@ -21,31 +21,23 @@ class Part2 : Part1() {
         val directionFactor = if (loopDirection > 0) 1 else -1
 
         val pipesByX = mutableMapOf<Int, MutableList<Pair<Pair<Int, Int>, String>>>()
-        val pipesByY = mutableMapOf<Int, MutableList<Pair<Pair<Int, Int>, String>>>()
 
         for (pipe in this.pipeCoords) {
             if (!pipesByX.containsKey(pipe.value.first.first)) {
                 pipesByX[pipe.value.first.first] = mutableListOf()
             }
-            if (!pipesByY.containsKey(pipe.value.first.second)) {
-                pipesByY[pipe.value.first.second] = mutableListOf()
-            }
             pipesByX[pipe.value.first.first]!!.add(pipe.value)
-            pipesByY[pipe.value.first.second]!!.add(pipe.value)
         }
 
         for (x in 0 until this.grid.count()) {
             for (y in 0 until this.grid[0].count()) {
-                if (this.pipeCoords.containsKey("$x:$y") || !pipesByX.containsKey(x) || !pipesByY.containsKey(y)) {
+                if (this.pipeCoords.containsKey("$x:$y") || !pipesByX.containsKey(x)) {
                     continue
                 }
 
-                val down = pipesByY[y]!!.filter { it.first.first < x }
-                val up = pipesByY[y]!!.filter { it.first.first > x }
-                val left = pipesByX[x]!!.filter { it.first.second < y }
                 val right = pipesByX[x]!!.filter { it.first.second > y }
 
-                if (down.isEmpty() || up.isEmpty() || left.isEmpty() || right.isEmpty()) {
+                if (right.isEmpty()) {
                     continue
                 }
 
